@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="ru.electric.ec.online.common.Service" />
+        <variable
+            name="viewModel"
+            type="ru.electric.ec.online.ui.basket.BasketViewModel" />
+    </data>
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+                <include
+                    android:id="@+id/include"
+                    layout="@layout/_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <LinearLayout
+                        android:id="@+id/body"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                            android:id="@+id/swipe_refresh"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/list"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:scrollbars="vertical" />
+                        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/footer"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/basket_footer"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text_total"
+                            style="@style/AppTheme.ECOnline.Text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{Service.rub(viewModel.total,@string/text_total)}"
+                            android:textAlignment="textEnd"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/editComment"
+                            style="@style/AppTheme.ECOnline.Edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/text_comment"
+                            android:inputType="textMultiLine"
+                            android:text="@={viewModel.comment}"
+                            tools:ignore="Autofill" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/buttonSelectAll"
+                                style="@style/AppTheme.ECOnline.Button"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_weight="2"
+                                android:contentDescription="@string/button_select_all"
+                                android:onClick="@{() -> viewModel.selectAllBasket()}"
+                                android:src="@drawable/select_all" />
+
+                            <ImageView
+                                android:id="@+id/buttonSelectNone"
+                                style="@style/AppTheme.ECOnline.Button"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_weight="2"
+                                android:contentDescription="@string/button_select_none"
+                                android:onClick="@{() -> viewModel.selectNoneBasket()}"
+                                android:src="@drawable/select_none" />
+
+                            <Button
+                                android:id="@+id/buttonClear"
+                                style="@style/AppTheme.ECOnline.Button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:onClick="@{() -> viewModel.onClear(context)}"
+                                android:text="@string/button_clear" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+
+                            <Button
+                                android:id="@+id/checkMark"
+                                style="@style/AppTheme.ECOnline.Button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_weight="1"
+                                android:onClick="@{() -> viewModel.addToBasket(context)}"
+                                android:text="@string/button_add" />
+
+                            <Button
+                                android:id="@+id/buttonIssue"
+                                style="@style/AppTheme.ECOnline.Button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:onClick="@{() -> viewModel.onIssue(context)}"
+                                android:text="@string/button_issue" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <!-- Основной контейнер разметки -->
+
+        </RelativeLayout>
+
+        <!-- Контейнер, содержащий выдвижное меню -->
+        <RelativeLayout
+            android:id="@+id/left_drawer"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#FFFFFF"
+            android:choiceMode="none"
+            android:clickable="true"
+            android:focusable="true">
+
+            <!--suppress AndroidUnknownAttribute -->
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/navigator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:background="@android:color/white"
+                app:headerLayout="@layout/_header"
+                app:itemHorizontalPadding="10dp"
+                app:itemIconPadding="10dp"
+                app:menu="@menu/menu" />
+        </RelativeLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
